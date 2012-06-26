@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Utility.hpp"
 
 #define HOSTNAME 1
 #define PORT 2
@@ -7,7 +8,7 @@
 
 void mainLoop(char *hostname, char *port)
 {
-
+	
 }
 
 
