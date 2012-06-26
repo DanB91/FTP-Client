@@ -13,16 +13,16 @@ class FTPException : public std::exception
 {
 
 	public:
-		MsgException(std::string str) : msg(str)
+		FTPException(std::string str) : msg(str)
 		{
 		}
 
-		virtual const char *what() const
+		virtual const char *what() const throw()
 		{
 			return msg.c_str();
 		}
 
-		virtual ~MsgException() 
+		virtual ~FTPException() throw()
 		{
 		}
 	
