@@ -17,6 +17,7 @@ all: cli
 cli: $(OBJ)
 	$(CC) $(OBJ) -o cli
 
+main.o: Utility.hpp
 
 clean:
 	rm -f *.o core
