@@ -2,22 +2,25 @@
 .SUFFIXES: .cpp .o
 
 
-CC =clang++ 
+CC = g++-mp-4.7
 
 
-CFLAGS = -g -Wall
 
 OBJ = main.o 
 INC = /opt/local/include
+DYLIB = /opt/local/lib
+
+CFLAGS = -g -Wall -I$(INC) -L$(DYLIB) -lboost_regex
+
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -I $(INC) -c $<
+	$(CC) $(CFLAGS) -c $<
 all: cli 
 
 cli: $(OBJ)
-	$(CC) $(OBJ) -o cli
+	$(CC) $(OBJ) $(CFLAGS) -o cli
 
-main.o: Utility.hpp
+main.o: FTPExceptions.hpp
 
 clean:
 	rm -f *.o core
