@@ -6,11 +6,11 @@ CC = g++-mp-4.7
 
 
 
-OBJ = main.o 
+OBJ = main.o FTPClient.o
 INC = /opt/local/include
 DYLIB = /opt/local/lib
 
-CFLAGS = -g -Wall -I$(INC) -L$(DYLIB) -lboost_regex
+CFLAGS = -g -Wall -I$(INC) -L$(DYLIB) -std=gnu++11 -lboost_regex
 
 
 %.o: %.cpp
@@ -21,6 +21,7 @@ cli: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o cli
 
 main.o: FTPExceptions.hpp
+FTPClient.o: FTPClient.hpp
 
 clean:
 	rm -f *.o core

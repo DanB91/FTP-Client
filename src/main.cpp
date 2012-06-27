@@ -3,6 +3,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
 #include "FTPExceptions.hpp"
+#include "FTPClient.hpp"
 
 
 #define HOSTNAME 1
@@ -12,7 +13,7 @@
 
 
 
-void verifyValidInput(const std::string &hostname, const std::string &portStr)
+void verifyValidHostnameAndPort(const std::string &hostname, const std::string &portStr)
 {
 	try{
 		boost::lexical_cast<int>(portStr);
@@ -29,9 +30,10 @@ void verifyValidInput(const std::string &hostname, const std::string &portStr)
 
 void mainLoop(const std::string &hostname, const std::string &portStr = "21")
 {
-	verifyValidInput(hostname, portStr);
+	verifyValidHostnameAndPort(hostname, portStr);
 	
-	int port = boost::lexical_cast<int>(portStr);
+	FTPClient ftp;
+	ftp.connect(hostname, boost::lexical_cast<int>(portStr));
 
 }
 
