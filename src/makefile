@@ -10,7 +10,7 @@ OBJ = main.o FTPClient.o
 INC = /opt/local/include
 DYLIB = /opt/local/lib
 
-CFLAGS = -g -Wall -I$(INC) -L$(DYLIB) -std=gnu++11 -lboost_regex
+CFLAGS = -g -Wall -I$(INC) -L$(DYLIB) -ggdb -lboost_system -lboost_regex  -std=gnu++11 
 
 
 %.o: %.cpp

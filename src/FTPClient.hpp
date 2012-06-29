@@ -1,7 +1,9 @@
 #pragma once
 
 #include <string>
+#include <boost/asio.hpp>
 
+using boost::asio::ip::tcp;
 
 class FTPClient{
 
@@ -13,10 +15,11 @@ class FTPClient{
 	public:
 		bool exited();
 		CommandResponse getResponse();
-		void connect(const std::string &hostname, int port);
+		void connect(const std::string &hostname, const std::string &port);
+		FTPClient() : ios(), commandSocket(ios) {}
 
 	private:
+		boost::asio::io_service ios;
+		tcp::socket commandSocket;
 		
-
-
 };

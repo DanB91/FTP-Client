@@ -33,7 +33,7 @@ void mainLoop(const std::string &hostname, const std::string &portStr = "21")
 	verifyValidHostnameAndPort(hostname, portStr);
 	
 	FTPClient ftp;
-	ftp.connect(hostname, boost::lexical_cast<int>(portStr));
+	ftp.connect(hostname, portStr);
 
 }
 
