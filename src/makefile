@@ -2,11 +2,11 @@
 .SUFFIXES: .cpp .o
 
 
-CC = g++-mp-4.7
+CC = g++
 
 
 
-OBJ = main.o FTPClient.o
+OBJ = main.o FTPClient.o FTPConnection.o
 INC = /opt/local/include
 DYLIB = /opt/local/lib
 
@@ -21,7 +21,8 @@ cli: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o cli
 
 main.o: FTPExceptions.hpp
-FTPClient.o: FTPClient.hpp
+FTPClient.o: FTPClient.hpp FTPConnection.hpp
+FTPConection.o: FTPConnection.hpp
 
 clean:
 	rm -f *.o core
