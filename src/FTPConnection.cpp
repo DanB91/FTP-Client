@@ -8,13 +8,44 @@ void FTPConnection::connect(const std::string &hostname, const std::string &port
 		//resolves host name
 		tcp::resolver resolver(this->ios);
 		tcp::resolver::query query(hostname, port);
-		auto iterator = resolver.resolve(query);
 
 		//connects to host
-		boost::asio::connect(this->socket, iterator);
+		boost::asio::connect(this->socket, resolver.resolve(query));
 	}
 	catch(boost::system::system_error &){
 		throw FTPException("Error connecting to host");
 	}
 }
+
+std::string FTPConnection::readLineFromSocket()
+{
+
+	std::string retStr;
+	boost::asio::streambuf responseBuffer;
+
+	try{
+		boost::asio::read_until(this->socket, responseBuffer, "\r\n");
+		std::istream responseStream(&responseBuffer);
+		std::getline(responseStream, retStr);
+	}
+	catch(boost::system::system_error &){
+		throw FTPException("Error reading line");
+	}
+	return retStr;
+}
+
+void FTPConnection::writeToSocketFromBuffer(std::string &buffer)
+{
+	boost::asio::streambuf b;
+	std::ostream os(&b);
+	os << buffer;
+
+	try{
+		boost::asio::write(this->socket, b);
+	}catch(boost::system::system_error &){
+		throw FTPException("Error writing line");
+	}
+
+}
+
 
