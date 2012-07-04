@@ -17,7 +17,8 @@ void FTPConnection::connect(const std::string &hostname, const std::string &port
 	}
 }
 
-std::string FTPConnection::readLineFromSocket()
+//reads '\r\n' terminated line in
+std::string FTPConnection::readLine()
 {
 
 	std::string retStr;
@@ -34,12 +35,11 @@ std::string FTPConnection::readLineFromSocket()
 	return retStr;
 }
 
-void FTPConnection::writeToSocketFromBuffer(std::string &buffer)
+void FTPConnection::writeLine(const std::string &buffer)
 {
 	boost::asio::streambuf b;
 	std::ostream os(&b);
 	os << buffer;
-
 	try{
 		boost::asio::write(this->socket, b);
 	}catch(boost::system::system_error &){
@@ -47,5 +47,7 @@ void FTPConnection::writeToSocketFromBuffer(std::string &buffer)
 	}
 
 }
+
+
 
 

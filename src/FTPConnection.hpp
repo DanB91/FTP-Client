@@ -1,6 +1,6 @@
 //boost asio socket wrapper
 #pragma once
-
+#pragma clang diagnostic ignored "-Wparentheses"
 
 #include <vector>
 #include <string>
@@ -14,8 +14,8 @@ class FTPConnection{
 	
 	public:
 		void connect(const std::string &hostname, const std::string &port);
-		std::string readLineFromSocket();
-		void writeLine(std::string &buffer);
+		std::string readLine(); //reads a /r/n terminated line from the socket
+		void writeLine(const std::string &buffer); 
 		FTPConnection() : socket(ios){}
 
 	private:

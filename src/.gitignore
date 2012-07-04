@@ -3,3 +3,6 @@
 *.sw*
 cli
 tags
+test
+.DS_Store
+nbproject

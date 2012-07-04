@@ -2,25 +2,22 @@
 .SUFFIXES: .cpp .o
 
 
-CC = g++
+CC = clang++-mp-3.1
 
 
 
 OBJ = test.o ../FTPConnection.o
-INC = /opt/local/include:/opt/local/include/cppunit
-DYLIB = /opt/local/lib
-
-CFLAGS = -g -Wall -I$(INC) -L$(DYLIB)  -lboost_system -lboost_regex -lcppunit -std=gnu++11 
-
-
+INC = /opt/local/include -I/opt/local/include/cppunit
+DYLIB = /opt/local/lib -lboost_system -lboost_regex  -lcppunit  
+CFLAGS = -g -ggdb -Wall -I$(INC)    
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $<
 all: test
 
 test: $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -o test
+	$(CC) $(OBJ) -L$(DYLIB) $(CFLAGS) -o test
 
 test.o: FTPConnectionTest.hpp
 
 clean:
-	rm -f *.o core
+	rm -f *.o  core

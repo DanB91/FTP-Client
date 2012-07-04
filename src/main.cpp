@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wparentheses"
 #include <iostream>
 #include <string>
 #include <boost/lexical_cast.hpp>

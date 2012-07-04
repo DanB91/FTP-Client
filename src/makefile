@@ -2,22 +2,21 @@
 .SUFFIXES: .cpp .o
 
 
-CC = g++
+CC = clang++-mp-3.1
 
 
 
 OBJ = main.o FTPClient.o FTPConnection.o
 INC = /opt/local/include
-DYLIB = /opt/local/lib
-
-CFLAGS = -g -Wall -I$(INC) -L$(DYLIB)  -lboost_system -lboost_regex  -std=gnu++11 
+DYLIB = /opt/local/lib -lboost_system -lboost_regex
+CFLAGS = -g  -I$(INC) 
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $<
 all: cli test 
 
 cli: $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -o cli
+	$(CC) $(OBJ) -L$(DYLIB) $(CFLAGS) -o cli
 
 test: 
 	make -C tests
@@ -27,4 +26,4 @@ FTPClient.o: FTPClient.hpp FTPConnection.hpp
 FTPConection.o: FTPConnection.hpp
 
 clean:
-	rm -f *.o core
+	rm -f tests/*.o *.o core
