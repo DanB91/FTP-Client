@@ -13,7 +13,7 @@ class FTPException : public std::exception
 {
 
 	public:
-		FTPException(std::string str) : msg(str)
+		FTPException(const std::string &str) : msg(str)
 		{
 		}
 
@@ -25,10 +25,15 @@ class FTPException : public std::exception
 		virtual ~FTPException() throw()
 		{
 		}
-	
-	private:
-		std::string msg;
 
+	private:
+		const std::string msg;
+
+};
+
+class NonFatalUnexpectedFTPCodeException : FTPException{
+	public:
+		NonFatalUnexpectedFTPCodeException(const std::string &msg) : FTPException(msg){} 
 };
 
 

@@ -1,3 +1,4 @@
+#pragma once 
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/TestRunner.h>
 #include <cppunit/TestFixture.h>

@@ -16,7 +16,14 @@ class FTPConnection{
 		void connect(const std::string &hostname, const std::string &port);
 		std::string readLine(); //reads a /r/n terminated line from the socket
 		void writeLine(const std::string &buffer); 
+
+		void close(){
+			this->socket.close();
+		}
 		FTPConnection() : socket(ios){}
+		~FTPConnection(){
+			this->close();
+		}
 
 	private:
 		boost::asio::io_service ios;
