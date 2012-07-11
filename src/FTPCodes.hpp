@@ -12,4 +12,6 @@ namespace FTPCodes{
 	const std::string LOGGEDIN = "230"; //user logged in
 	const std::string CLOSING_CMD = "421"; //fatal error where the command socket must be closed
 	const std::string PWD = "257"; //print working directory successful
+    const std::string CWD = "250"; //change directory successful
+
 }

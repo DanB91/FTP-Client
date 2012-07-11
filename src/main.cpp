@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <boost/lexical_cast.hpp>
-#include <boost/regex.hpp>
+#include <regex>
 #include "FTPExceptions.hpp"
 #include "FTPClient.hpp"
 
@@ -22,9 +22,9 @@ void verifyValidHostnameAndPort(const std::string &hostname, const std::string &
 		throw FTPException("Port must be a number!");
 	}
 
-	boost::regex r("[A-Za-z0-9\\-\\.]+");
+	std::regex r("[A-Za-z0-9\\-\\.]+");
 	
-	if(!boost::regex_match(hostname, r))
+	if(!std::regex_match(hostname, r))
 			throw FTPException("Hostname is invalid!");
 }
 

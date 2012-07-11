@@ -9,13 +9,9 @@ void sendCommandToControlConnection(FTPConnection &controlConnection, std::strin
 	controlConnection.writeLine(commandAndArguments);
 }
 
-std::string receiveAndVerifyResponseFromControlConnection(FTPConnection &controlConnection, const std::string &expectedFTPCode)
+std::string receiveAndVerifyResponseFromControlConnection(FTPConnection &controlConnection)
 {
 	std::string serverResponse = controlConnection.readLine();
-
-	//check to see if it is the right ftp code
-	if(serverResponse.find(expectedFTPCode) != 0)
-		throw NonFatalUnexpectedFTPCodeException(serverResponse);
 
 	//special case if server needs to disconnect
 	if(serverResponse.find(FTPCodes::CLOSING_CMD) == 0)
@@ -31,11 +27,12 @@ std::string receiveAndVerifyResponseFromControlConnection(FTPConnection &control
  * If the control socket needs to disconnect, it will throw an FTPConnection
  * Saves the connection response to the lastResponse
  */
-void FTPClient::sendAndReceiveCommands(std::string commandAndArguments, const std::string &expectedFTPCode )
+void FTPClient::sendAndReceiveCommands(std::string commandAndArguments)
 {
 	
 	sendCommandToControlConnection(this->controlConnection, commandAndArguments);
-	this->lastResponseFromControlConnection = receiveAndVerifyResponseFromControlConnection(this->controlConnection, expectedFTPCode);
+    
+	this->lastResponseFromControlConnection = receiveAndVerifyResponseFromControlConnection(this->controlConnection);
 
 }
 
@@ -43,18 +40,35 @@ void FTPClient::sendAndReceiveCommands(std::string commandAndArguments, const st
 void FTPClient::connect(const std::string &hostname, const std::string &port)
 {
 	this->controlConnection.connect(hostname, port);
-	this->lastResponseFromControlConnection = receiveAndVerifyResponseFromControlConnection(this->controlConnection, FTPCodes::RDY_FOR_LOGIN);
+	this->lastResponseFromControlConnection = receiveAndVerifyResponseFromControlConnection(this->controlConnection);
 
 }
 
 void FTPClient::login(const std::string &username, const std::string &password)
 {
-	this->sendAndReceiveCommands("USER " + username, FTPCodes::USR_GOOD);
-	this->sendAndReceiveCommands("PASS " + password, FTPCodes::LOGGEDIN);
+	this->sendAndReceiveCommands("USER " + username);
+	this->sendAndReceiveCommands("PASS " + password);
 }
 
 void FTPClient::printWorkingDirectory()
 {
-	this->sendAndReceiveCommands("PWD", FTPCodes::PWD);
+	this->sendAndReceiveCommands("PWD");
+}
+
+void FTPClient::changeDirectory(const std::string &path)
+{
+    std::string command = "CWD";
+
+    //if there is a supplied argument, put it in
+    if(path.size() > 0)
+        command += " " + path;
+
+    this->sendAndReceiveCommands(command);
+}
+
+std::string FTPClient::listDirectory(const std::string &path)
+{
+    return "";
+
 }
 

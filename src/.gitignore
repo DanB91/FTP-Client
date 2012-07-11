@@ -6,3 +6,4 @@ tags
 test
 .DS_Store
 nbproject
+.clang_complete

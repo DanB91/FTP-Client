@@ -5,18 +5,17 @@
 #include <vector>
 #include <string>
 #include <boost/asio.hpp>
+#include <array>
 
 using boost::asio::ip::tcp;
 
 class FTPConnection{
-
-	typedef std::vector<char> Buffer;
-	
-	public:
+ 
+    
+    public:
 		void connect(const std::string &hostname, const std::string &port);
 		std::string readLine(); //reads a /r/n terminated line from the socket
 		void writeLine(const std::string &buffer); 
-
 		void close(){
 			this->socket.close();
 		}

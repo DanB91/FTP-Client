@@ -1,26 +1,25 @@
-#include "FTPConnectionTest.hpp"
-#include "FTPClientTest.hpp"
-#include <iostream>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include "../FTPClient.hpp"
+#include "../FTPCodes.hpp"
+#define BOOST_TEST_MODULE ftp_client test
+#include <boost/test/included/unit_test.hpp>
+
+bool matchesCorrectOutputAndPrintsItOut(std::string output, std::string expectedSubstring)
+    {
+        std::cout << output << std::endl;
+        return output.find(expectedSubstring) != std::string::npos;
+    }
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION(FTPConnectionTest);
-CPPUNIT_TEST_SUITE_REGISTRATION(FTPClientTest);
-
-
-int main()
+BOOST_AUTO_TEST_CASE(test_pwd)
 {
-	try{
-		CppUnit::TextUi::TestRunner runner;
-		CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-		runner.addTest( registry.makeTest() );
+    FTPClient client;
+    client.connect("ftp.freebsd.org", "21");
+    client.login();
 
-		runner.run();
-	}
-	catch(std::exception &e){
-		std::cerr << e.what() << std::endl;
-	}
+     client.printWorkingDirectory();
+     BOOST_CHECK(matchesCorrectOutputAndPrintsItOut(client.getResponse(), FTPCodes::PWD));
 
-	return 0;
+    
+
+    
 }
