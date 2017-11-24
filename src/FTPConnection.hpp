@@ -6,6 +6,7 @@
 #include <string>
 #include <boost/asio.hpp>
 #include <array>
+#include <fstream>
 
 using boost::asio::ip::tcp;
 
@@ -15,7 +16,8 @@ class FTPConnection{
     public:
 		void connect(const std::string &hostname, const std::string &port);
 		std::string readLine(); //reads a /r/n terminated line from the socket
-		void writeLine(const std::string &buffer); 
+		void writeLine(const std::string &buffer);
+        std::ofstream getFile();
 		void close(){
 			this->socket.close();
 		}

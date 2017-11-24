@@ -1,7 +1,6 @@
 #include "FTPConnection.hpp"
 #include "FTPExceptions.hpp"
 
-
 void FTPConnection::connect(const std::string &hostname, const std::string &port)
 {	
 	try{
@@ -48,7 +47,28 @@ void FTPConnection::writeLine(const std::string &buffer)
 
 }
 
+std::ofstream FTPConnection::getFile()
+{
+    boost::system::error_code error;
+    std::ofstream outFile("image.gif", std::ofstream::out | std::ofstream::binary);
+    
+    try {
+        boost::asio::streambuf responseBuffer;
+        size_t sz = 0;
 
+        // Read until EOF, writing data to output as we go.
+        while ((sz += boost::asio::read(this->socket, responseBuffer, boost::asio::transfer_at_least(1), error)))
+        {
+            outFile << &responseBuffer;
+        }
+        
+        printf("");
+    } catch (boost::system::system_error e) {
+        throw FTPException(std::string("Error getting file ") + e.what());
+    }
+    
+    return outFile;
+}
 
 
 
