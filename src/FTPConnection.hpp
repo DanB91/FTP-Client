@@ -17,7 +17,7 @@ class FTPConnection{
 		void connect(const std::string &hostname, const std::string &port);
 		std::string readLine(); //reads a /r/n terminated line from the socket
 		void writeLine(const std::string &buffer);
-        std::ofstream getFile();
+        void downloadFile(const std::string &dstPath);
 		void close(){
 			this->socket.close();
 		}

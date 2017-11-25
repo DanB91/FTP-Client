@@ -72,24 +72,26 @@ std::string FTPClient::listDirectory(const std::string &path)
     return "";
 }
 
-void FTPClient::downloadFile(const std::string &fileName)
+std::ofstream FTPClient::downloadFile(const std::string &fileName, const std::string &dstPath)
 {
     auto response = this->sendAndReceiveCommands("TYPE I");
-    
     response = this->sendAndReceiveCommands("PASV");
+    
     std::regex r("(\\d+),(\\d+),(\\d+),(\\d+),(\\d+),(\\d+)");
     std::smatch matches;
+    std::ofstream result;
     
     if (std::regex_search(response, matches, r)) {
         std::string host = matches[1].str() + "." + matches[2].str() + "." + matches[3].str() + "." + matches[4].str();
         std::string port = std::to_string(std::stoi(matches[5].str()) * 256 + std::stoi(matches[6].str()));
         this->dataConnection.connect(host, port);
-        sendCommandToControlConnection(this->dataConnection, "RETR " + fileName);
-        auto fileStream = this->dataConnection.getFile();
+        response = this->sendAndReceiveCommands("RETR " + fileName);
+        this->dataConnection.downloadFile(dstPath);
         printf("");
     } else {
         // TODO: error
     }
     
+    return result;
 }
 

@@ -24,7 +24,7 @@ class FTPClient{
 		void printWorkingDirectory();
         void changeDirectory(const std::string &path = "");
         std::string listDirectory(const std::string &path = "");
-        void downloadFile(const std::string &fileName);
+        std::ofstream downloadFile(const std::string &fileName, const std::string &dstPath);
     
 	private:
     
