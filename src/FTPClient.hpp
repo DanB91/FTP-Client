@@ -6,15 +6,7 @@
 #include "FTPExceptions.hpp"
 
 
-
 class FTPClient{
-
-    private:
-    
-    enum class ConnectionMode
-    {
-        Control, Data
-    };
 
 	public:
     
@@ -23,7 +15,7 @@ class FTPClient{
 		void login(const std::string &username = "anonymous", const std::string &password = "");
 		void printWorkingDirectory();
         void changeDirectory(const std::string &path = "");
-        std::string listDirectory(const std::string &path = "");
+        std::vector<std::string> listDirectory(const std::string &path = "");
         std::ofstream downloadFile(const std::string &fileName, const std::string &dstPath);
     
 	private:

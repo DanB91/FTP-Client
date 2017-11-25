@@ -67,9 +67,25 @@ void FTPClient::changeDirectory(const std::string &path)
     this->sendAndReceiveCommands(command);
 }
 
-std::string FTPClient::listDirectory(const std::string &path)
+std::vector<std::string> FTPClient::listDirectory(const std::string &path)
 {
-    return "";
+    auto response = this->sendAndReceiveCommands("PASV");
+    
+    std::regex r("(\\d+),(\\d+),(\\d+),(\\d+),(\\d+),(\\d+)");
+    std::smatch matches;
+    std::vector<std::string> listing;
+    
+    if (std::regex_search(response, matches, r)) {
+        std::string host = matches[1].str() + "." + matches[2].str() + "." + matches[3].str() + "." + matches[4].str();
+        std::string port = std::to_string(std::stoi(matches[5].str()) * 256 + std::stoi(matches[6].str()));
+        this->dataConnection.connect(host, port);
+        response = this->sendAndReceiveCommands("LIST " + path);
+        listing = this->dataConnection.readLines();
+    } else {
+        // TODO: error
+    }
+    
+    return listing;
 }
 
 std::ofstream FTPClient::downloadFile(const std::string &fileName, const std::string &dstPath)
