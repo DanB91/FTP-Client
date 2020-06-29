@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <sys/time.h> // fix for Boost error "declaration of 'select' must be imported from module 'Darwin.POSIX.sys.time' before it is required" on iOS
 #include <boost/asio.hpp>
 #include <array>
 #include <fstream>
