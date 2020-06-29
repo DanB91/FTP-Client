@@ -3,7 +3,6 @@
 #include <string>
 
 #include "FTPConnection.hpp"
-#include "FTPExceptions.hpp"
 
 
 class FTPClient{

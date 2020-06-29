@@ -13,6 +13,11 @@ class FTPException : public std::exception
 {
 
 	public:
+    
+        FTPException()
+        {
+        }
+    
 		FTPException(const std::string &str) : msg(str)
 		{
 		}

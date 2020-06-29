@@ -2,6 +2,8 @@
 #include <regex>
 #include "FTPClient.hpp"
 #include "FTPCodes.hpp"
+#include "FTPExceptions.hpp"
+
 
 void sendCommandToControlConnection(FTPConnection &controlConnection, std::string commandAndArguments)
 {
