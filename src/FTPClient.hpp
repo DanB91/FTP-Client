@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sys/time.h>
 
 #include "FTPConnection.hpp"
 
