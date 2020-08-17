@@ -1,7 +1,6 @@
 #include "FTPConnection.hpp"
 #include "FTPExceptions.hpp"
 
-
 void FTPConnection::connect(const std::string &hostname, const std::string &port)
 {	
 	try{
@@ -35,6 +34,28 @@ std::string FTPConnection::readLine()
 	return retStr;
 }
 
+std::vector<std::string> FTPConnection::readLines()
+{
+    std::vector<std::string> result;
+    
+    boost::system::error_code error;
+    boost::asio::streambuf responseBuffer;
+    boost::asio::read(this->socket, responseBuffer, boost::asio::transfer_all(), error);
+    
+    if (error && error != boost::asio::error::eof) {
+        throw FTPException(std::string("Error getting data: ") + error.message());
+    }
+    
+    std::istream responseStream(&responseBuffer);
+    std::string line;
+
+    while (std::getline(responseStream, line) && line != "\r") {
+        result.push_back(line);
+    }
+    
+    return result;
+}
+
 void FTPConnection::writeLine(const std::string &buffer)
 {
 	boost::asio::streambuf b;
@@ -48,7 +69,19 @@ void FTPConnection::writeLine(const std::string &buffer)
 
 }
 
+void FTPConnection::downloadFile(const std::string &dstPath)
+{
+    boost::system::error_code error;
+    boost::asio::streambuf responseBuffer;
+    std::ofstream outFile(dstPath.c_str(), std::ofstream::out | std::ofstream::binary);
+    
+    boost::asio::read(this->socket, responseBuffer, boost::asio::transfer_all(), error);
+    outFile << &responseBuffer;
 
+    if (error && error != boost::asio::error::eof) {
+        throw FTPException(std::string("Error getting file: ") + error.message());
+    }
+}
 
 
 
