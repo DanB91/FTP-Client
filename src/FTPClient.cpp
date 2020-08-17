@@ -105,7 +105,6 @@ std::ofstream FTPClient::downloadFile(const std::string &fileName, const std::st
         this->dataConnection.connect(host, port);
         response = this->sendAndReceiveCommands("RETR " + fileName);
         this->dataConnection.downloadFile(dstPath);
-        printf("");
     } else {
         // TODO: error
     }
